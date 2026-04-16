@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adam Rizky — Keluarga</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+        
+         :root {
+            --bg: #050810;
+            --bg2: #080c14;
+            --surface: #0d1220;
+            --surface2: #111827;
+            --border: #1a2540;
+            --border2: #243050;
+            --accent: #00d4ff;
+            --accent2: #00ff88;
+            --accent3: #ff6b35;
+            --text: #d4e2f4;
+            --text2: #8ba3c7;
+            --muted: #4a6080;
+            --font: 'IBM Plex Sans', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+        
+        html {
+            scroll-behavior: smooth
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 15px;
+            line-height: 1.6
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px);
+            pointer-events: none;
+            z-index: 0
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            height: 60px;
+            background: rgba(5, 8, 16, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border)
+        }
+        
+        nav::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.4
+        }
+        
+        .nav-logo {
+            font-family: var(--mono);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+        
+        .nav-logo::before {
+            content: '■';
+            font-size: 0.6rem;
+            color: var(--accent2);
+            animation: blink 1.4s step-end infinite
+        }
+        
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: 0
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none
+        }
+        
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            text-transform: lowercase;
+            padding: 6px 14px;
+            border-radius: 3px;
+            transition: all 0.2s;
+            border: 1px solid transparent
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            border-color: var(--border2);
+            background: rgba(0, 212, 255, 0.05)
+        }
+        
+        .nav-links a.active {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.08)
+        }
+        
+        .status-bar {
+            position: relative;
+            z-index: 1;
+            margin-top: 60px;
+            padding: 8px 48px;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--muted)
+        }
+        
+        .sb-item {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+        
+        .sb-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite
+        }
+        
+        .sb-dot.green {
+            background: var(--accent2);
+            box-shadow: 0 0 6px var(--accent2)
+        }
+        
+        .sb-dot.cyan {
+            background: var(--accent);
+            box-shadow: 0 0 6px var(--accent)
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: 0.4
+            }
+        }
+        
+        .page-header {
+            position: relative;
+            z-index: 1;
+            padding: 56px 48px 52px;
+            border-bottom: 1px solid var(--border);
+            animation: fadeUp 0.5s 0.1s ease both
+        }
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--accent2);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 16px
+        }
+        
+        .tag .tag-line {
+            display: block;
+            width: 20px;
+            height: 1px;
+            background: var(--accent2)
+        }
+        
+        .tag .tag-bracket {
+            color: var(--muted)
+        }
+        
+        .page-header h1 {
+            font-size: clamp(2rem, 4.5vw, 3.6rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #e8f4ff
+        }
+        
+        .page-header h1 span {
+            color: var(--accent)
+        }
+        
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 60px 48px
+        }
+        
+        .section-header {
+            margin-bottom: 36px
+        }
+        
+        .section-label {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+        
+        .section-label::before {
+            content: '//';
+            color: var(--muted)
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #e8f4ff;
+            line-height: 1.2
+        }
+        /* FAMILY PHOTO CARD */
+        
+        .family-photo-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.25s;
+            animation: fadeUp 0.5s 0.15s ease both;
+            max-width: 960px;
+        }
+        
+        .family-photo-card:hover {
+            border-color: var(--border2);
+            background: var(--surface2);
+        }
+        
+        .family-photo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s;
+            z-index: 2
+        }
+        
+        .family-photo-card:hover::before {
+            transform: scaleX(1)
+        }
+        
+        .fc-photo-landscape {
+            width: 100%;
+            aspect-ratio: 16/7;
+            overflow: hidden;
+            background: var(--bg2);
+            position: relative;
+        }
+        
+        .fc-photo-landscape img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.45s ease;
+        }
+        
+        .family-photo-card:hover .fc-photo-landscape img {
+            transform: scale(1.04)
+        }
+        
+        .fc-photo-landscape .photo-label {
+            position: absolute;
+            top: 12px;
+            left: 14px;
+            padding: 3px 10px;
+            background: rgba(5, 8, 16, 0.78);
+            border: 1px solid rgba(0, 255, 136, 0.25);
+            border-radius: 3px;
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--accent2);
+            letter-spacing: 0.07em;
+        }
+        
+        .fc-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .fc-photo-placeholder svg {
+            width: 48px;
+            height: 48px;
+            fill: var(--muted);
+            opacity: 0.35
+        }
+        
+        .fc-photo-placeholder span {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.06em
+        }
+        
+        .fc-caption {
+            padding: 24px 28px 30px;
+        }
+        
+        .fc-caption-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .fc-role-tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent2);
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 3px 10px;
+            border-radius: 3px;
+        }
+        
+        .fc-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e8f4ff;
+        }
+        
+        .fc-members-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+        
+        .fc-member {
+            padding-right: 28px;
+            border-right: 1px solid var(--border);
+        }
+        
+        .fc-member:nth-child(2) {
+            padding-left: 28px;
+        }
+        
+        .fc-member:last-child {
+            border-right: none;
+            padding-left: 28px;
+            padding-right: 0;
+        }
+        
+        .fc-member-role {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+        
+        .fc-member-name {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #e8f4ff;
+        }
+        
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 24px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            background: var(--bg2)
+        }
+        
+        footer p {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--muted)
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px
+        }
+        
+        .footer-links a {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent)
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+        
+        @media(max-width: 720px) {
+            .fc-members-row {
+                grid-template-columns: 1fr;
+            }
+            .fc-member {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 0 0 16px 0;
+                margin-bottom: 16px;
+            }
+            .fc-member:nth-child(2) {
+                padding-left: 0
+            }
+            .fc-member:last-child {
+                border-bottom: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+        
+        @media(max-width: 600px) {
+            nav {
+                padding: 0 20px
+            }
+            .nav-links a {
+                padding: 5px 10px;
+                font-size: 0.68rem
+            }
+            .status-bar {
+                padding: 8px 20px;
+                overflow-x: auto
+            }
+            .page-header {
+                padding: 40px 20px 36px
+            }
+            section {
+                padding: 40px 20px
+            }
+            .fc-caption {
+                padding: 18px 18px 22px
+            }
+            footer {
+                flex-direction: column;
+                gap: 12px;
+                padding: 20px;
+                text-align: center
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-logo">あるしこ</div>
+        <ul class="nav-links">
+            <li><a href="index.html">profil</a></li>
+            <li><a href="keluarga.html" class="active">keluarga</a></li>
+            <li><a href="teman.html">teman</a></li>
+            <li><a href="hobi.html">hobi</a></li>
+        </ul>
+    </nav>
+
+    <div class="status-bar">
+        <div class="sb-item"><span class="sb-dot green"></span> SYSTEM ONLINE</div>
+        <div class="sb-item"><span class="sb-dot cyan"></span> MODULE: KELUARGA</div>
+    </div>
+
+    <div class="page-header">
+        <span class="tag">
+            <span class="tag-line"></span>
+        <span class="tag-bracket">[</span>03 — INFORMASI KELUARGA<span class="tag-bracket">]</span>
+        </span>
+        <h1>Keluarga <span>Tercinta</span></h1>
+    </div>
+
+    <section>
+        <div class="section-header">
+            <p class="section-label">Anggota Keluarga</p>
+            <h2 class="section-title">Struktur Keluarga</h2>
+        </div>
+
+        <div class="family-photo-card">
+
+            <div class="fc-photo-landscape">
+                <img src="img1/keluarga.jpeg" alt="Foto Keluarga Rahmadan" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="fc-photo-placeholder" style="display:none;">
+                    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                    <span>keluarga.jpg</span>
+                </div>
+                <div class="photo-label">IMG · KELUARGA</div>
+            </div>
+
+            <div class="fc-caption">
+                <div class="fc-caption-header">
+                    <div class="fc-role-tag">Foto Keluarga</div>
+                    <div class="fc-title">Keluarga</div>
+                </div>
+
+                <div class="fc-members-row">
+
+                    <div class="fc-member">
+                        <div class="fc-member-role">1</div>
+                        <div class="fc-member-name">Ayah</div>
+                    </div>
+
+                    <div class="fc-member">
+                        <div class="fc-member-role">2</div>
+                        <div class="fc-member-name">Ibu</div>
+                    </div>
+
+                    <div class="fc-member">
+                        <div class="fc-member-role">3</div>
+                        <div class="fc-member-name">Anak dan Saudara</div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Adam Rizky Rahmadan · PNJ</p>
+        <div class="footer-links">
+            <a href="index.html">profil</a>
+            <a href="keluarga.html">keluarga</a>
+            <a href="teman.html">teman</a>
+            <a href="hobi.html">hobi</a>
+        </div>
+    </footer>
+</body>
+
+</html>
