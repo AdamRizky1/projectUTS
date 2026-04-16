@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adam Rizky — Hobi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+        
+         :root {
+            --bg: #060810;
+            --surface: #0c0f1a;
+            --surface2: #111827;
+            --border: #1a2235;
+            --border2: #243050;
+            --accent: #00d4ff;
+            --accent2: #7c3aed;
+            --accent3: #10b981;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+            --muted: #475569;
+            --font: 'Space Grotesk', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+        
+        html {
+            scroll-behavior: smooth
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, .012) 2px, rgba(0, 212, 255, .012) 4px);
+            pointer-events: none;
+            z-index: 9999
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(0, 212, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, .05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            height: 56px;
+            background: rgba(6, 8, 16, .92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border)
+        }
+        
+        .nav-logo {
+            font-family: var(--mono);
+            font-weight: 600;
+            font-size: .88rem;
+            color: var(--accent);
+            letter-spacing: .06em;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+        
+        .nav-logo::before {
+            content: '';
+            display: block;
+            width: 7px;
+            height: 7px;
+            background: var(--accent3);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent3);
+            animation: pulse 2s infinite
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: .3
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none
+        }
+        
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: .75rem;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 5px 14px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all .2s;
+            text-transform: lowercase;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(0, 212, 255, .06);
+            border-color: rgba(0, 212, 255, .2)
+        }
+        
+        .nav-links a.active {
+            color: var(--accent);
+            background: rgba(0, 212, 255, .08);
+            border-color: rgba(0, 212, 255, .25)
+        }
+        
+        .status-bar {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 0 48px;
+            height: 30px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            font-family: var(--mono);
+            font-size: .65rem;
+            color: var(--muted)
+        }
+        
+        .sb-item {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+        
+        .sb-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%
+        }
+        
+        .sb-dot.g {
+            background: var(--accent3);
+            box-shadow: 0 0 5px var(--accent3)
+        }
+        
+        .sb-dot.b {
+            background: var(--accent)
+        }
+        
+        .sb-val {
+            color: var(--text2)
+        }
+        
+        .page-header {
+            position: relative;
+            z-index: 1;
+            padding: 100px 48px 56px;
+            border-bottom: 1px solid var(--border);
+            animation: fadeUp .5s .08s ease both
+        }
+        
+        .sys-label {
+            font-family: var(--mono);
+            font-size: .68rem;
+            color: var(--accent);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px
+        }
+        
+        .sys-label::before {
+            content: '//';
+            color: var(--muted);
+            font-weight: 300
+        }
+        
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -.01em;
+            color: var(--text);
+            margin-bottom: 14px
+        }
+        
+        .page-header h1 .ac {
+            color: var(--accent)
+        }
+        
+        .page-header p {
+            font-family: var(--mono);
+            font-size: .82rem;
+            color: var(--text2);
+            max-width: 520px;
+            line-height: 1.7
+        }
+        
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 64px 48px
+        }
+        
+        .sec-label {
+            font-family: var(--mono);
+            font-size: .66rem;
+            color: var(--accent);
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px
+        }
+        
+        .sec-label::before {
+            content: '//';
+            color: var(--muted);
+            font-weight: 300
+        }
+        
+        .sec-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 32px;
+            letter-spacing: -.01em
+        }
+        /* EXPAND GALLERY */
+        
+        .expand-gallery {
+            display: flex;
+            height: 22rem;
+            gap: .7rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .eg-item {
+            flex: 1;
+            border-radius: 10px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+            transition: all .7s cubic-bezier(.25, .4, .45, 1.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .eg-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(6, 8, 16, .55);
+            transition: opacity .5s ease;
+            z-index: 1;
+        }
+        
+        .eg-num {
+            position: absolute;
+            top: 12px;
+            left: 14px;
+            font-family: var(--mono);
+            font-size: .58rem;
+            color: rgba(255, 255, 255, .5);
+            letter-spacing: .12em;
+            z-index: 3;
+            transition: opacity .3s;
+        }
+        
+        .eg-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 20px 20px;
+            background: linear-gradient(transparent, rgba(6, 8, 16, .92) 40%);
+            z-index: 3;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all .45s cubic-bezier(.25, .46, .45, .94);
+        }
+        
+        .eg-label {
+            font-family: var(--mono);
+            font-size: .58rem;
+            color: var(--accent3);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        
+        .eg-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        
+        .eg-line {
+            width: 28px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .eg-desc {
+            font-family: var(--mono);
+            font-size: .66rem;
+            color: var(--text2);
+            line-height: 1.7;
+        }
+        
+        .eg-item:hover,
+        .eg-item.active {
+            flex: 5;
+            background-size: cover;
+        }
+        
+        .eg-item:hover::before,
+        .eg-item.active::before {
+            opacity: 0;
+        }
+        
+        .eg-item:hover .eg-info,
+        .eg-item.active .eg-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .eg-item:hover .eg-num,
+        .eg-item.active .eg-num {
+            opacity: 0;
+        }
+        
+        .eg-item:nth-child(1) {
+            background-color: #0d1a2a
+        }
+        
+        .eg-item:nth-child(2) {
+            background-color: #120d1a
+        }
+        
+        .eg-item:nth-child(3) {
+            background-color: #0d1a14
+        }
+        
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 18px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            background: var(--surface)
+        }
+        
+        footer p {
+            font-family: var(--mono);
+            font-size: .63rem;
+            color: var(--muted)
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 18px
+        }
+        
+        .footer-links a {
+            font-family: var(--mono);
+            font-size: .63rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color .2s
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent)
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+        
+        @media(max-width:768px) {
+            .expand-gallery {
+                height: 16rem
+            }
+            nav {
+                padding: 0 20px
+            }
+            .status-bar {
+                display: none
+            }
+            .page-header {
+                padding: 80px 20px 40px
+            }
+            section {
+                padding: 48px 20px
+            }
+            footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                padding: 18px 20px
+            }
+        }
+        
+        @media(max-width:500px) {
+            .expand-gallery {
+                height: 13rem;
+                gap: .4rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-logo">あるしこ</div>
+        <ul class="nav-links">
+            <li><a href="index.html">profil</a></li>
+            <li><a href="keluarga.html">keluarga</a></li>
+            <li><a href="teman.html">teman</a></li>
+            <li><a href="hobi.html" class="active">hobi</a></li>
+        </ul>
+    </nav>
+    <div class="status-bar">
+        <div class="sb-item">
+            <div class="sb-dot g"></div><span>SYS ONLINE</span></div>
+        <div class="sb-item">
+            <div class="sb-dot b"></div><span>MODULE:</span><span class="sb-val">HOBI</span></div>
+    </div>
+
+    <div class="page-header">
+        <div class="sys-label">05 — INTEREST_MODULE</div>
+        <h1>Passion &amp; <span class="ac">Hobi</span></h1>
+        <p>Hal-hal yang mengisi waktu luang.</p>
+    </div>
+
+    <section>
+        <p class="sec-label">Hobi Utama</p>
+        <h2 class="sec-title">Yang Paling Disukai</h2>
+
+        <div class="expand-gallery">
+
+            <div class="eg-item" style="background-image:url('img1/iot1.jpeg')">
+                <div class="eg-num">INTEREST_01</div>
+                <div class="eg-info">
+                    <div class="eg-label">Hobi Utama</div>
+                    <div class="eg-title">IoT Engginer</div>
+                    <div class="eg-line"></div>
+                    <div class="eg-desc">Membangun sistem cerdas yang menghubungkan perangkat fisik dengan kendali digital secara otomatis.</div>
+                </div>
+            </div>
+
+            <div class="eg-item" style="background-image:url('img1/HOBI\ GAMBAR.jpeg')">
+                <div class="eg-num">INTEREST_02</div>
+                <div class="eg-info">
+                    <div class="eg-label">Hobi Utama</div>
+                    <div class="eg-title">Menggambar</div>
+                    <div class="eg-line"></div>
+                    <div class="eg-desc">Merancang visual kreatif yang estetis sekaligus fungsional bagi pengguna.</div>
+                </div>
+            </div>
+
+            <div class="eg-item" style="background-image:url('img1/BACA\ NOVEL.jpeg')">
+                <div class="eg-num">INTEREST_03</div>
+                <div class="eg-info">
+                    <div class="eg-label">Hobi Utama</div>
+                    <div class="eg-title">Membaca Novel</div>
+                    <div class="eg-line"></div>
+                    <div class="eg-desc">Menjelajahi berbagai narasi imajinatif untuk memperluas wawasan dan melatih kreativitas.</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Adam Rizky Rahmadan ·&nbsp; PNJ</p>
+        <div class="footer-links">
+            <a href="index.html">profil</a>
+            <a href="keluarga.html">keluarga</a>
+            <a href="teman.html">teman</a>
+            <a href="hobi.html">hobi</a>
+        </div>
+    </footer>
+</body>
+
+</html>
